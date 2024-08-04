@@ -1,3 +1,4 @@
+
 <!doctype html>
 {% load static %}
 <html lang="pt-br"  data-bs-theme="auto">
@@ -98,6 +99,10 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+
+      .hidden {
+        display: none;
+    }
     </style>
 
     
@@ -156,208 +161,283 @@
     </div>
 
 
-    <div class="container">
-      <main>
-        <div class="py-5 text-center">
-          <h2>Formulário de Finalização de Compra</h2>
-        </div>
-    
+    <div class="container rounded mt-5 mb-5 bg-c-blue">
         <div class="row">
-          <div class="col-md-8 col-lg-6 mx-auto">
-            <h4 class="mb-3">Endereço de Cobrança</h4>
-            <form class="needs-validation" novalidate method="post" action="{% url 'create_aesp_odonto' %}">
-              {% csrf_token %}
-              {{ form.non_field_errors }}
-    
-              <div class="mb-3">
-                <label for="{{ form.NRO_CONTRATO.id_for_label }}" class="form-label">{{ form.NRO_CONTRATO.label }}</label>
-                {{ form.NRO_CONTRATO }}
-                <div class="invalid-feedback">
-                  Por favor, insira um número de contrato válido.
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5 "><img class="rounded-circle  mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold text-black"><h2>{{user.userprofile.namecomplte}}</h2></span><span class="text-black-50 text-black">{{user.email}}</span><span> </span></div>
+            </div>
+            <div class="col-md-8 border-right ">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right text-black">Proposta AESP - Odonto</h4>
+                    </div>
+      
+                    {% if messages %}
+                      {% for message in messages %}
+                        <div class="alert alert-success" role="alert">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                    <form class="needs-validation" novalidate method="post" action="{% url 'create_aesp_odonto' %}">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                    <div class="row mt-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">CONDICÃO</span>
+                            {{ form.CONDICAO }}
+                            <div class="invalid-feedback">
+                                Por favor, insira um número de contrato válido.
+                              </div>
+                          </div>
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">NÚMERO DO CONTRATO</span>
+                          {{ form.NRO_CONTRATO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                        </div>
+                        
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">DATA MOVIMENTACÃO</span>
+                          {{form.DATA_MOVIMENTO}}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                        </div>
+                        
+                          
+                        
+                          
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">DATA INICIO UTILIZACAO</span>
+                        {{ form.DATA_INICIO_UTILIZACAO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">TIPO</span>
+                        {{ form.TIPO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3 " id="cpf-titular-group">
+                        <span class="input-group-text">CPF TITULAR</span>
+                        {{ form.CPF_TITULAR }}
+                    </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">GRAU DEPENDENCIA</span>
+                        {{ form.GRAU_DEPENDENCIA }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">NOME</span>
+                        {{ form.NOME }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">NOME MAE</span>
+                        {{ form.NOME_MAE }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">DATA NASCIMENTO</span>
+                        {{ form.DATA_NASCIMENTO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">TIPO LOGRADOURO</span>
+                        {{ form.TIPO_LOGRADOURO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">NOME LOGRADOURO</span>
+                        {{ form.NOME_LOGRADOURO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">NUMERO</span>
+                        {{ form.NUMERO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">COMPLEMENTO</span>
+                        {{ form.COMPLEMENTO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">BAIRRO</span>
+                        {{ form.BAIRRO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">CIDADE</span>
+                        {{ form.CIDADE }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">ESTADO</span>
+                        {{ form.ESTADO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">CEP</span>
+                        {{ form.CEP }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">RG</span>
+                        {{ form.RG }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">UF RG</span>
+                        {{ form.UF_RG }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">CPF</span>
+                        {{ form.CPF }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">PIS</span>
+                        {{ form.PIS }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">SEXO</span>
+                        {{ form.SEXO }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">ESTADO CIVIL</span>
+                        {{ form.ESTADO_CIVIL }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">DDD</span>
+                        {{ form.DDD }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">FONE</span>
+                        {{ form.FONE }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">EMAIL</span>
+                        {{ form.EMAIL }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1" >CODIGOPLANODATASYS</span>
+                        {{ form.CODIGOPLANODATASYS }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um número de contrato válido.
+                          </div>
+                      </div>
+                    </div>
+                    <div class=" text-center d-flex justify-content-evenly">
+
+                      <button class="btn bg-success profile-button text-black " type="submit">ENVIAR CONTRATO</button>
+
+                    </div>
+                </form>
                 </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.NOME.id_for_label }}" class="form-label">{{ form.NOME.label }}</label>
-                {{ form.NOME }}
-                <div class="invalid-feedback">
-                  Por favor, insira um nome válido.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CPF.id_for_label }}" class="form-label">{{ form.CPF.label }}</label>
-                {{ form.CPF }}
-                <div class="invalid-feedback">
-                  Seu CPF é obrigatório.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.EMAIL.id_for_label }}" class="form-label">{{ form.EMAIL.label }} <span class="text-muted">(Opcional)</span></label>
-                {{ form.EMAIL }}
-                <div class="invalid-feedback">
-                  Por favor, insira um endereço de e-mail válido para receber atualizações de envio.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.ENDERECO.id_for_label }}" class="form-label">{{ form.ENDERECO.label }}</label>
-                {{ form.ENDERECO }}
-                <div class="invalid-feedback">
-                  Por favor, insira seu endereço de envio.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.ENDERECO2.id_for_label }}" class="form-label">{{ form.ENDERECO2.label }} <span class="text-muted">(Opcional)</span></label>
-                {{ form.ENDERECO2 }}
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.PAIS.id_for_label }}" class="form-label">{{ form.PAIS.label }}</label>
-                {{ form.PAIS }}
-                <div class="invalid-feedback">
-                  Por favor, selecione um país válido.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.ESTADO.id_for_label }}" class="form-label">{{ form.ESTADO.label }}</label>
-                {{ form.ESTADO }}
-                <div class="invalid-feedback">
-                  Por favor, selecione um estado válido.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CEP.id_for_label }}" class="form-label">{{ form.CEP.label }}</label>
-                {{ form.CEP }}
-                <div class="invalid-feedback">
-                  O código postal é obrigatório.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.NOME_MAE.id_for_label }}" class="form-label">{{ form.NOME_MAE.label }}</label>
-                {{ form.NOME_MAE }}
-                <div class="invalid-feedback">
-                  Por favor, insira o nome da mãe.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.DATA_NASCIMENTO.id_for_label }}" class="form-label">{{ form.DATA_NASCIMENTO.label }}</label>
-                {{ form.DATA_NASCIMENTO }}
-                <div class="invalid-feedback">
-                  Por favor, insira a data de nascimento.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.NRO_PROPOSTA.id_for_label }}" class="form-label">{{ form.NRO_PROPOSTA.label }}</label>
-                {{ form.NRO_PROPOSTA }}
-                <div class="invalid-feedback">
-                  Por favor, insira o número da proposta.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CODIGO_CORRETOR.id_for_label }}" class="form-label">{{ form.CODIGO_CORRETOR.label }}</label>
-                {{ form.CODIGO_CORRETOR }}
-                <div class="invalid-feedback">
-                  Por favor, insira o código do corretor.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.RAZAO_SOCIAL.id_for_label }}" class="form-label">{{ form.RAZAO_SOCIAL.label }}</label>
-                {{ form.RAZAO_SOCIAL }}
-                <div class="invalid-feedback">
-                  Por favor, insira a razão social.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CNPJ.id_for_label }}" class="form-label">{{ form.CNPJ.label }}</label>
-                {{ form.CNPJ }}
-                <div class="invalid-feedback">
-                  Por favor, insira o CNPJ.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.DT_VENCIMENTO.id_for_label }}" class="form-label">{{ form.DT_VENCIMENTO.label }}</label>
-                {{ form.DT_VENCIMENTO }}
-                <div class="invalid-feedback">
-                  Por favor, insira a data de vencimento.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CODIGO_PLANO.id_for_label }}" class="form-label">{{ form.CODIGO_PLANO.label }}</label>
-                {{ form.CODIGO_PLANO }}
-                <div class="invalid-feedback">
-                  Por favor, insira o código do plano.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.VALOR_PLANO.id_for_label }}" class="form-label">{{ form.VALOR_PLANO.label }}</label>
-                {{ form.VALOR_PLANO }}
-                <div class="invalid-feedback">
-                  Por favor, insira o valor do plano.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.EMPRESA.id_for_label }}" class="form-label">{{ form.EMPRESA.label }}</label>
-                {{ form.EMPRESA }}
-                <div class="invalid-feedback">
-                  Por favor, insira o nome da empresa.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.DEPENDENTES.id_for_label }}" class="form-label">{{ form.DEPENDENTES.label }}</label>
-                {{ form.DEPENDENTES }}
-                <div class="invalid-feedback">
-                  Por favor, insira os dependentes.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.GRAU_DEPENDENCIA.id_for_label }}" class="form-label">{{ form.GRAU_DEPENDENCIA.label }}</label>
-                {{ form.GRAU_DEPENDENCIA }}
-                <div class="invalid-feedback">
-                  Por favor, selecione o grau de dependência.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.TIPO.id_for_label }}" class="form-label">{{ form.TIPO.label }}</label>
-                {{ form.TIPO }}
-                <div class="invalid-feedback">
-                  Por favor, selecione o tipo.
-                </div>
-              </div>
-    
-              <div class="mb-3">
-                <label for="{{ form.CARTEIRINHA.id_for_label }}" class="form-label">{{ form.CARTEIRINHA.label }}</label>
-                {{ form.CARTEIRINHA }}
-                <div class="invalid-feedback">
-                  Por favor, insira a carteirinha.
-                </div>
-              </div>
-    
-              <button class="w-100 btn btn-primary btn-lg" type="submit">Enviar</button>
-            </form>
-          </div>
+              
+            </div>
         </div>
-      </main>
-    </div>
+      </div>
+      </div>
+      </div>
     
     
     <script src="{% static 'dist/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'checkout/checkout.js' %}"></script></body>
+    <script src="{% static 'checkout/checkout.js' %}"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+
+        var dateField = document.getElementById("id_DATA_MOVIMENTO");
+        if (dateField) {
+          var now = new Date();
+            var offset = -3; // Horário de Brasília (UTC-3)
+
+            // Ajustar para o horário de Brasília
+            var adjustedDate = new Date(now.getTime() + (offset * 60 * 60 * 1000));
+
+            // Formatar a data no formato ISO
+            var isoDate = adjustedDate.toISOString();
+            
+            dateField.value = isoDate;
+        }
+
+        const cpfTitularField2 = document.getElementById('id_CPF_TITULAR');
+        cpfTitularField2.value = '-'
+
+          const tipoSelect = document.getElementById('tipo-select');
+          const cpfTitularField = document.getElementById('id_CPF_TITULAR').closest('.input-group');
+      
+          function toggleCpfTitularField() {
+        if (tipoSelect.value === 'DE') {
+            cpfTitularField.classList.remove('hidden');
+        } else {
+            cpfTitularField.classList.add('hidden');
+         }
+     }
+      
+          tipoSelect.addEventListener('change', toggleCpfTitularField);
+      
+          // Inicializa o campo
+          toggleCpfTitularField();
+      });
+      </script>
+  
+  </body>
 </html>

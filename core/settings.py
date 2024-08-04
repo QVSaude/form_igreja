@@ -132,3 +132,12 @@ CELERY_TIMEZONE = 'America/Sao_Paulo'
 
 CELERY_BROKER_URL = 'redis://default:RSJQm2zvWJ93OnXzZDivnbR3s7oe3bMf@redis-15570.c308.sa-east-1-1.ec2.redns.redis-cloud.com:15570/0'
 CELERY_RESULT_BACKEND = 'redis://default:RSJQm2zvWJ93OnXzZDivnbR3s7oe3bMf@redis-15570.c308.sa-east-1-1.ec2.redns.redis-cloud.com:15570/0'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP do Outlook
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'andersonmoura8125@outlook.com'
+EMAIL_HOST_PASSWORD = 'aaa050200'
+DEFAULT_FROM_EMAIL = 'andersonmoura8125@outlook.com'

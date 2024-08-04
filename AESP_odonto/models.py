@@ -3,7 +3,7 @@ from django.db import models
 class AESP_odonto(models.Model):
     CONDICAO = models.CharField(max_length=1, default='1')
     NRO_CONTRATO = models.CharField(max_length=100)
-    DATA_MOVIMENTO = models.DateField(auto_now=True)
+    DATA_MOVIMENTO = models.DateTimeField()
     DATA_INICIO_UTILIZACAO = models.DateField()
     TIPO_CHOICES = [
         ('TI', 'Titular'),
@@ -39,12 +39,15 @@ class AESP_odonto(models.Model):
     NOME_LOGRADOURO = models.CharField(max_length=255)
     NUMERO = models.CharField(max_length=10)
     BAIRRO = models.CharField(max_length=100)
+    COMPLEMENTO = models.CharField(max_length=100)
     CIDADE = models.CharField(max_length=100)
     ESTADO = models.CharField(max_length=2)
     CEP = models.CharField(max_length=8)
     RG = models.CharField(max_length=20)
     UF_RG = models.CharField(max_length=2)
+    CPF_TITULAR = models.CharField(max_length=11)
     CPF = models.CharField(max_length=11)
+    PIS = models.CharField(max_length=50)
     
     SEXO_CHOICES = [
         (1, 'Feminino'),
