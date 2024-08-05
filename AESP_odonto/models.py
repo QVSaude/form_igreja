@@ -7,22 +7,8 @@ class AESP_odonto(models.Model):
     DATA_INICIO_UTILIZACAO = models.DateField()
     TIPO_CHOICES = [
         ('TI', 'Titular'),
-        ('DE', 'Dependente')
     ]
     TIPO = models.CharField(max_length=2, choices=TIPO_CHOICES)
-    GRAU_DEPENDENCIA_CHOICES = [
-            ('1M', 'Titular do sexo masculino'), 
-            ('1F', 'Titular do sexo feminino'), 
-            ('2E', 'Esposa ou companheira'), 
-            ('2C', 'Esposo ou companheiro'), 
-            ('3M', 'Filhos'), 
-            ('3F', 'Filhas'), 
-            ('4M', 'Agregado masculino'), 
-            ('4F', 'Agregado feminino'), 
-            ('5P', 'Pai'), 
-            ('5M', 'Mãe')
-    ]
-    GRAU_DEPENDENCIA = models.CharField(max_length=10, choices=GRAU_DEPENDENCIA_CHOICES)
     NOME = models.CharField(max_length=255)
     NOME_MAE = models.CharField(max_length=255)
     DATA_NASCIMENTO = models.DateField()
@@ -39,14 +25,38 @@ class AESP_odonto(models.Model):
     NOME_LOGRADOURO = models.CharField(max_length=255)
     NUMERO = models.CharField(max_length=10)
     BAIRRO = models.CharField(max_length=100)
-    COMPLEMENTO = models.CharField(max_length=100)
+    COMPLEMENTO = models.CharField(max_length=100, blank=True, null=True)
     CIDADE = models.CharField(max_length=100)
     ESTADO = models.CharField(max_length=2)
     CEP = models.CharField(max_length=8)
     RG = models.CharField(max_length=20)
     UF_RG = models.CharField(max_length=2)
-    CPF_TITULAR = models.CharField(max_length=11)
     CPF = models.CharField(max_length=11)
+    SEXO_CHOICES = [
+        (1, 'Feminino'),
+        (2, 'Masculino')
+    ]
+    SEXO = models.IntegerField(choices=SEXO_CHOICES)
+    ESTADO_CIVIL_CHOICES = [
+        (1, 'Amasiado(a)'), (2, 'Casado(a)'), (3, 'Divorciado(a)'), 
+        (5, 'Separado(a)'), (6, 'Solteiro(a)'), (7, 'Viúvo(a)')
+    ]
+    ESTADO_CIVIL = models.IntegerField(choices=ESTADO_CIVIL_CHOICES)
+    EMAIL = models.EmailField()
+    DDD = models.CharField(max_length=2)
+    FONE = models.CharField(max_length=10)
+    CODIGOPLANODATASYS = models.CharField(max_length=20, default=196702)
+
+class Dependente(models.Model):
+    titular = models.ForeignKey(AESP_odonto, on_delete=models.CASCADE, related_name='dependentes')
+    TIPO_CHOICES = [
+        ('DE', 'Dependente')
+    ]
+    TIPO = models.CharField(max_length=2, choices=TIPO_CHOICES)
+    NOME = models.CharField(max_length=255)
+    NOME_MAE = models.CharField(max_length=255)
+    DATA_NASCIMENTO = models.DateField()
+    CPF_DEPENDENTE = models.CharField(max_length=11)
     
     SEXO_CHOICES = [
         (1, 'Feminino'),
@@ -60,10 +70,16 @@ class AESP_odonto(models.Model):
     ]
     ESTADO_CIVIL = models.IntegerField(choices=ESTADO_CIVIL_CHOICES)
     
-    DDD = models.CharField(max_length=2)
-    FONE = models.CharField(max_length=10)
-    EMAIL = models.EmailField()
-    CODIGOPLANODATASYS = models.CharField(max_length=20, default=196702)
-
-    def __str__(self):
-        return self.NOME
+    GRAU_DEPENDENCIA_CHOICES = [
+            ('2E', 'Esposa ou companheira'), 
+            ('2C', 'Esposo ou companheiro'), 
+            ('3M', 'Filhos'), 
+            ('3F', 'Filhas'), 
+            ('4M', 'Agregado masculino'), 
+            ('4F', 'Agregado feminino'), 
+            ('5P', 'Pai'), 
+            ('5M', 'Mãe')
+    ]
+    GRAU_DEPENDENCIA = models.CharField(max_length=10, choices=GRAU_DEPENDENCIA_CHOICES)
+    RG = models.CharField(max_length=20)
+    ORGAO_EMISSOR = models.CharField(max_length=100)

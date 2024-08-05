@@ -1,7 +1,9 @@
 
 import csv
 from django.shortcuts import render
-from .forms import AESP_odontoForm
+
+from AESP_odonto.models import Dependente
+from .forms import AESP_odontoForm, DependenteForm, DependenteFormSet
 from django.utils import timezone
 from django.contrib import messages
 
@@ -12,27 +14,36 @@ from django.conf import settings
 
 def create_aesp_odonto(request):
     if request.method == 'POST':
-        form = AESP_odontoForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
+        titular_form  = AESP_odontoForm(request.POST)
+        dependente_formset = DependenteFormSet(request.POST, queryset=Dependente.objects.none())
+        print(titular_form.errors)
+        if titular_form.is_valid() and dependente_formset.is_valid():
+            titular = titular_form.save()
+            dependentes = dependente_formset.save(commit=False)
+            for dependente in dependentes:
+                dependente.titular = titular
+                dependente.save()
             # Salvar as informações no arquivo CSV    
-            print(form.cleaned_data)        
-            save_to_csv(form.cleaned_data)
-
-           
-            filepath =  'AESP_odonto/data/Layout AESP ODONTO.csv'
-
+            print(titular_form.cleaned_data)        
+            save_to_csv(titular_form.cleaned_data)
             # Enviar o arquivo CSV por e-mail
+            filepath =  'AESP_odonto/data/Layout AESP ODONTO.csv'
             recipient_email = 'andersonmoura812@gmail.com'  # Substitua pelo e-mail do destinatário
             email_sent = send_email_with_csv(filepath, recipient_email)
             if email_sent:
                 messages.success(request, 'Formulário enviado com sucesso e email enviado!')
             else:
                 messages.warning(request, 'Formulário enviado, mas houve um problema ao enviar o email.')
+        else:
+            print(titular_form.errors)
+            print(dependente_formset.errors)
     else:
-        form = AESP_odontoForm()
-    return render(request, 'create_aesp_odonto1.html', {'form': form})
+        titular_form = AESP_odontoForm()
+        dependente_formset = DependenteFormSet(queryset=Dependente.objects.none())
+    return render(request, 'create_aesp_odonto1.html', {
+            'form': titular_form,
+            'dependente_formset': dependente_formset,
+})
 
 
 def save_to_csv(data):

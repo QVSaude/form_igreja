@@ -225,17 +225,7 @@
                             Por favor, insira um número de contrato válido.
                           </div>
                       </div>
-                      <div class="input-group mb-3 " id="cpf-titular-group">
-                        <span class="input-group-text">CPF TITULAR</span>
-                        {{ form.CPF_TITULAR }}
-                    </div>
-                      <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">GRAU DEPENDENCIA</span>
-                        {{ form.GRAU_DEPENDENCIA }}
-                          <div class="invalid-feedback">
-                            Por favor, insira um número de contrato válido.
-                          </div>
-                      </div>
+
                       <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">NOME</span>
                         {{ form.NOME }}
@@ -335,13 +325,6 @@
                           </div>
                       </div>
                       <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">PIS</span>
-                        {{ form.PIS }}
-                          <div class="invalid-feedback">
-                            Por favor, insira um número de contrato válido.
-                          </div>
-                      </div>
-                      <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">SEXO</span>
                         {{ form.SEXO }}
                           <div class="invalid-feedback">
@@ -377,18 +360,23 @@
                           </div>
                       </div>
 
-                      <div class="input-group mb-3 ">
-                        <span class="input-group-text" id="basic-addon1" >ADICIONAR DEPENDENTE</span>
-                        <button class="btn bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-add align-middle" viewBox="0 0 16 16">
-                          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                          <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
-                        </svg></button>
-                        
-                          <div class="invalid-feedback">
-                            Por favor, insira um número de contrato válido.
-                          </div>
-                      </div>
+                      <div class="input-group mb-3" id="btn-dependente">
+                        <span class="input-group-text" id="basic-addon1">ADICIONAR DEPENDENTE</span>
+                        <button type="button" class="btn bg-success" id="add-dependente-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-add align-middle" viewBox="0 0 16 16">
+                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                            </svg>
+                        </button>
+                    </div>
 
+
+                      <div id="dependente-form-section" style="display:none;">
+                        {{ dependente_formset.management_form }}
+                        {% for form in dependente_formset %}
+                            {{ form.as_p }}
+                        {% endfor %}
+                      </div>
 
 
 
@@ -426,6 +414,11 @@
     <script src="{% static 'checkout/checkout.js' %}"></script>
 
     <script>
+
+  document.getElementById('add-dependente-btn').addEventListener('click', function() {
+      document.getElementById('dependente-form-section').style.display = 'block';
+  }); 
+
       document.addEventListener('DOMContentLoaded', function() {
 
         var dateField = document.getElementById("id_DATA_MOVIMENTO");
@@ -440,30 +433,18 @@
             var isoDate = adjustedDate.toISOString();
             
             dateField.value = isoDate;
+
+        const numeroContrato = document.getElementById('id_NRO_CONTRATO');
+        numeroContrato.value = '----';
         }
 
         const cpfTitularField2 = document.getElementById('id_CPF_TITULAR');
         cpfTitularField2.value = '-';
 
-        const numeroContrato = document.getElementById('id_NRO_CONTRATO');
-        numeroContrato.value = '----';
-
-
-          const tipoSelect = document.getElementById('tipo-select');
-          const cpfTitularField = document.getElementById('id_CPF_TITULAR').closest('.input-group');
+        
       
-          function toggleCpfTitularField() {
-        if (tipoSelect.value === 'DE') {
-            cpfTitularField.classList.remove('hidden');
-        } else {
-            cpfTitularField.classList.add('hidden');
-         }
-     }
+          
       
-          tipoSelect.addEventListener('change', toggleCpfTitularField);
-      
-          // Inicializa o campo
-          toggleCpfTitularField();
       });
       </script>
   
