@@ -47,7 +47,6 @@ class AESP_odonto(models.Model):
     UF_RG = models.CharField(max_length=2)
     CPF_TITULAR = models.CharField(max_length=11)
     CPF = models.CharField(max_length=11)
-    PIS = models.CharField(max_length=50)
     
     SEXO_CHOICES = [
         (1, 'Feminino'),
