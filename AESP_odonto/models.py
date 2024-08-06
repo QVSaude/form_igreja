@@ -8,7 +8,7 @@ class AESP_odonto(models.Model):
     TIPO_CHOICES = [
         ('TI', 'Titular'),
     ]
-    TIPO = models.CharField(max_length=2, choices=TIPO_CHOICES)
+    TIPO = models.CharField(max_length=2,  default='TI')
     NOME = models.CharField(max_length=255)
     NOME_MAE = models.CharField(max_length=255)
     DATA_NASCIMENTO = models.DateField()
@@ -52,7 +52,7 @@ class Dependente(models.Model):
     TIPO_CHOICES = [
         ('DE', 'Dependente')
     ]
-    TIPO = models.CharField(max_length=2, choices=TIPO_CHOICES)
+    TIPO = models.CharField(max_length=2,  default='DE')
     NOME = models.CharField(max_length=255)
     NOME_MAE = models.CharField(max_length=255)
     DATA_NASCIMENTO = models.DateField()
@@ -81,5 +81,5 @@ class Dependente(models.Model):
             ('5M', 'Mãe')
     ]
     GRAU_DEPENDENCIA = models.CharField(max_length=10, choices=GRAU_DEPENDENCIA_CHOICES)
-    RG = models.CharField(max_length=20)
-    ORGAO_EMISSOR = models.CharField(max_length=100)
+    RG = models.CharField(max_length=20, blank=True, null=True)
+    ORGAO_EMISSOR = models.CharField(max_length=100, blank=True, null=True)

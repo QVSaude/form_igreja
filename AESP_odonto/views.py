@@ -73,11 +73,18 @@ def save_to_csv(titular, dependentes):
     titular_data = {
         'CONDICAO': titular.CONDICAO,
         'NRO_CONTRATO': titular.NRO_CONTRATO,
-        
-        'EMAIL': titular.EMAIL,
-        'DDD': titular.DDD,
-        'FONE': titular.FONE,
+        'DATA_MOVIMENTO': titular.DATA_MOVIMENTO,
+        'DATA_INICIO_UTILIZACAO': titular.DATA_INICIO_UTILIZACAO,
+        'TIPO': titular.TIPO,
+        'NOME': titular.NOME,
+        'NOME_MAE': titular.NOME_MAE,
+        'DATA_NASCIMENTO': titular.DATA_NASCIMENTO,
+        'RG': titular.RG,
+        'UF_RG': titular.UF_RG,
         'CPF': titular.CPF,
+        'SEXO': titular.SEXO,
+        'ESTADO_CIVIL': titular.ESTADO_CIVIL,
+        
         'TIPO_LOGRADOURO': titular.TIPO_LOGRADOURO,
         'NOME_LOGRADOURO': titular.NOME_LOGRADOURO,
         'NUMERO': titular.NUMERO,
@@ -86,19 +93,42 @@ def save_to_csv(titular, dependentes):
         'CIDADE': titular.CIDADE,
         'ESTADO': titular.ESTADO,
         'CEP': titular.CEP,
+        'EMAIL': titular.EMAIL,
+        'DDD': titular.DDD,
+        'FONE': titular.FONE,
+        'CODIGOPLANODATASYS': titular.CODIGOPLANODATASYS,
+        
     }
     
     # Preparar dados dos dependentes
     dependentes_data = [{
+        'CONDICAO': titular.CONDICAO,
+        'NRO_CONTRATO': titular.NRO_CONTRATO,
+        'CPF_TITULAR': titular.CPF,
+        
+        'TIPO': dependente.TIPO,
         'NOME': dependente.NOME,
         'NOME_MAE': dependente.NOME_MAE,
         'DATA_NASCIMENTO': dependente.DATA_NASCIMENTO,
-        'CPF_DEPENDENTE': dependente.CPF_DEPENDENTE,
+        'CPF': dependente.CPF_DEPENDENTE,
         'SEXO': dependente.SEXO,
         'ESTADO_CIVIL': dependente.ESTADO_CIVIL,
         'GRAU_DEPENDENCIA': dependente.GRAU_DEPENDENCIA,
         'RG': dependente.RG,
-        'ORGAO_EMISSOR': dependente.ORGAO_EMISSOR
+        'ORGAO_EMISSOR': dependente.ORGAO_EMISSOR,
+        
+        'TIPO_LOGRADOURO': titular.TIPO_LOGRADOURO,
+        'NOME_LOGRADOURO': titular.NOME_LOGRADOURO,
+        'NUMERO': titular.NUMERO,
+        'BAIRRO': titular.BAIRRO,
+        'COMPLEMENTO': titular.COMPLEMENTO,
+        'CIDADE': titular.CIDADE,
+        'ESTADO': titular.ESTADO,
+        'CEP': titular.CEP,
+        'EMAIL': titular.EMAIL,
+        'DDD': titular.DDD,
+        'FONE': titular.FONE,
+        'CODIGOPLANODATASYS': titular.CODIGOPLANODATASYS,
     } for dependente in dependentes]
 
     # Adicionar uma nova linha com os dados do titular
@@ -121,37 +151,6 @@ def save_to_csv(titular, dependentes):
 
 
 
-
-
-
-
-# def save_to_csv(data):
-#     csv_file_path = 'AESP_odonto/data/Layout AESP ODONTO.csv'
-    
-#     # Ler o arquivo CSV existente
-#     with open(csv_file_path, mode='r', newline='', encoding='utf-8-sig') as file:
-#         reader = csv.reader(file, delimiter=';')
-#         header = next(reader)  # Ler a primeira linha como cabeçalho
-#         #print(f'Header: {header}')
-#         existing_data = list(reader)
-
-#     # Verificar se os campos do cabeçalho estão presentes em data
-#     #for field in header:
-#         #if field not in data:
-#             #print(f'Aviso: O campo "{field}" não está presente em data.')
-
-#     # Adicionar uma nova linha com os dados do formulário
-#     new_row = [data.get(field, '') for field in header]
-#     #print(f'Nova linha: {new_row}')
-
-#     # Escrever o arquivo CSV atualizado
-#     with open(csv_file_path, mode='w', newline='', encoding='utf-8-sig') as file:
-#         writer = csv.writer(file, delimiter=';')
-#         writer.writerow(header)  # Escrever o cabeçalho
-#         writer.writerows(existing_data)  # Escrever os dados existentes
-#         writer.writerow(new_row)  # Adicionar a nova linha
-#         #print(f'Linha adicionada: {new_row}')
-#     return csv_file_path
 
 
 def send_email_with_csv(file_path, recipient_email):
