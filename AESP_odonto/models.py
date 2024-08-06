@@ -20,6 +20,7 @@ class AESP_odonto(models.Model):
         (13, 'PRAÇA'), (14, 'BOULEVARD'), (15, 'RODOVIA'), (16, 'QUADRA'), 
         (17, 'CONDOMINIO')
     ]
+    
     TIPO_LOGRADOURO = models.IntegerField(choices=TIPO_LOGRADOURO_CHOICES)
     
     NOME_LOGRADOURO = models.CharField(max_length=255)
