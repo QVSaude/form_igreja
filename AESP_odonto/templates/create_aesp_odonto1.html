@@ -2,8 +2,7 @@
 <!doctype html>
 {% load static %}
 <html lang="pt-br"  data-bs-theme="auto">
-  <head>
-
+  <head>    
     <script src="{% static 'js/color-modes.js' %}"></script>
     <link href="{% static 'dist/css/bootstrap.rtl.min.css' %}" rel="stylesheet">
     <link href="{% static 'checkout/checkout.css' %}" rel="stylesheet">
@@ -105,7 +104,8 @@
     }
     </style>
 
-    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
   </head>
   <body class="bg-body-tertiary">
@@ -243,6 +243,13 @@
                       <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">DATA NASCIMENTO</span>
                         {{ form.DATA_NASCIMENTO }}
+                        <div class="invalid-feedback">
+                            Por favor, insira um valor válido.
+                        </div>
+                    </div>
+                      <div class="input-group mb-3" id="CEP">
+                        <span class="input-group-text" id="basic-addon1">CEP</span>
+                        {{ form.CEP }}
                           <div class="invalid-feedback">
                             Por favor, insira um valor válido.
                           </div>
@@ -292,13 +299,6 @@
                       <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">ESTADO</span>
                         {{ form.ESTADO }}
-                          <div class="invalid-feedback">
-                            Por favor, insira um valor válido.
-                          </div>
-                      </div>
-                      <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">CEP</span>
-                        {{ form.CEP }}
                           <div class="invalid-feedback">
                             Por favor, insira um valor válido.
                           </div>
@@ -515,9 +515,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-      document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
 
         var dateField = document.getElementById("id_DATA_MOVIMENTO");
+        var dateFieldUtilizacao = document.getElementById("id_DATA_INICIO_UTILIZACAO");
         if (dateField) {
           var now = new Date();
             var offset = -3; // Horário de Brasília (UTC-3)
@@ -529,6 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var isoDate = adjustedDate.toISOString();
             
             dateField.value = isoDate;
+            dateFieldUtilizacao.value = isoDate;
 
         const numeroContrato = document.getElementById('id_NRO_CONTRATO');
         numeroContrato.value = 'N/D';
@@ -546,6 +548,42 @@ document.addEventListener('DOMContentLoaded', function() {
           
       
       });
+      
+
+document.addEventListener('DOMContentLoaded', function() {
+        const cepField = document.getElementById('id_CEP'); // ID do campo CEP, que pode variar dependendo do seu Django form.
+        
+        cepField.addEventListener('blur', function() { // Usa o evento 'blur' para acionar a busca após o usuário sair do campo CEP.
+            const cep = cepField.value.replace(/\D/g, ''); // Remove caracteres não numéricos.
+            if (cep) {
+                const url = `https://viacep.com.br/ws/${cep}/json/`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('id_NOME_LOGRADOURO').value = data.logradouro;
+                            document.getElementById('id_COMPLEMENTO').value = data.complemento;
+                            document.getElementById('id_BAIRRO').value = data.bairro;
+                            document.getElementById('id_CIDADE').value = data.localidade;
+                            document.getElementById('id_ESTADO').value = data.uf;
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar o CEP:', error);
+                        alert('Erro ao buscar o CEP. Tente novamente.');
+                    });
+            }
+        });
+    });
+
+$(document).ready(function(){
+        $('#id_DATA_NASCIMENTO').mask('00/00/0000');
+    });
+      
+      
       </script>
   
   </body>

@@ -4,7 +4,7 @@ class AESP_odonto(models.Model):
     CONDICAO = models.CharField(max_length=1, default='1')
     NRO_CONTRATO = models.CharField(max_length=100)
     DATA_MOVIMENTO = models.DateTimeField()
-    DATA_INICIO_UTILIZACAO = models.DateField()
+    DATA_INICIO_UTILIZACAO = models.DateTimeField()
     TIPO_CHOICES = [
         ('TI', 'Titular'),
     ]
@@ -29,7 +29,7 @@ class AESP_odonto(models.Model):
     COMPLEMENTO = models.CharField(max_length=100, blank=True, null=True)
     CIDADE = models.CharField(max_length=100)
     ESTADO = models.CharField(max_length=2)
-    CEP = models.CharField(max_length=8)
+    CEP = models.CharField(max_length=9)
     RG = models.CharField(max_length=20)
     UF_RG = models.CharField(max_length=2)
     CPF = models.CharField(max_length=11)
