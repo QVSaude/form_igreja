@@ -40,8 +40,8 @@ def create_aesp_odonto(request):
             
             # Enviar o arquivo CSV por e-mail
             filepath =  'AESP_odonto/data/Layout AESP ODONTO.csv'
-            # recipient_email = 'aesp@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário
-            recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário
+            recipient_email = 'aesp@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário
+            # recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para test
             email_sent = send_email_with_csv(filepath, recipient_email)
             if email_sent:
                 messages.success(request, 'Formulário enviado com sucesso e email enviado!')

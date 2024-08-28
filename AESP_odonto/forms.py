@@ -24,7 +24,7 @@ class AESP_odontoForm(forms.ModelForm):
         self.fields['CIDADE'].widget.attrs.update({'id': 'id_CIDADE'})
         self.fields['ESTADO'].widget.attrs.update({'id': 'id_ESTADO'})
         
-        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'class': 'id_DATA_NASCIMENTO'})
+        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'class': 'id_DATA_NASCIMENTO' ,'placeholder':'00/00/0000'})
         
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
