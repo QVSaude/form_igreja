@@ -247,7 +247,7 @@
                         <div class="invalid-feedback">
                             Por favor, insira um valor válido.
                         </div>
-                    </div>
+                      </div>
                       <div class="input-group mb-3" id="CEP">
                         <span class="input-group-text" id="basic-addon1">CEP</span>
                         {{ form.CEP }}
@@ -400,9 +400,9 @@
                                 <div class="input-group mb-3">
                                   <span class="input-group-text" id="basic-addon1">DATA NASCIMENTO</span>
                                   {{ form.DATA_NASCIMENTO }}
-                                    <div class="invalid-feedback">
+                                  <div class="invalid-feedback">
                                       Por favor, insira um valor válido.
-                                    </div>
+                                  </div>
                                 </div>
                                 <div class="input-group mb-3">
                                   <span class="input-group-text" id="basic-addon1">CPF DEPENDENTE</span>
@@ -427,7 +427,7 @@
                                 </div>
                                 <div class="input-group mb-3">
                                   <span class="input-group-text" id="basic-addon1">GRAU DEPENDENTE</span>
-                                  {{ form.GRAU_DEPENDENTE }}
+                                  {{ form.GRAU_DEPENDENCIA }}
                                     <div class="invalid-feedback">
                                       Por favor, insira um valor válido.
                                     </div>
@@ -496,6 +496,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var dependenteFormIndex = 0;
     var dependenteFormTemplate = document.getElementById('dependente-form-template');
     var dependenteFormsContainer = document.getElementById('dependente-forms');
+    
 
     document.getElementById('add-dependente-btn').addEventListener('click', function() {
         var newForm = dependenteFormTemplate.cloneNode(true);
@@ -532,6 +533,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             dateField.value = isoDate;
             dateFieldUtilizacao.value = isoDate;
+            dateField.style.display='none'
+            dateFieldUtilizacao.style.display='none'
 
         const numeroContrato = document.getElementById('id_NRO_CONTRATO');
         numeroContrato.value = 'N/D';
@@ -540,13 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // tipo.value = 'Titular';
 
 
-        }
-
-
-
-        
-      
-          
+        }       
       
       });
       
@@ -582,6 +579,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(document).ready(function(){
         $('#id_DATA_NASCIMENTO').mask('00/00/0000');
+        $('#id_data_nascimento_dep').mask('00/00/0000');
+        
     });
       
       

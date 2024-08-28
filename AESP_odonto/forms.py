@@ -38,6 +38,8 @@ class DependenteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DependenteForm, self).__init__(*args, **kwargs)
         self.fields['TIPO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
+        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'id': 'id_data_nascimento_dep', 'placeholder':'00/00/0000'})
+        
         for field_name, field in self.fields.items():
                 field.widget.attrs['class'] = 'form-control'
        
