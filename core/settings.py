@@ -134,19 +134,19 @@ CELERY_BROKER_URL = 'redis://default:RSJQm2zvWJ93OnXzZDivnbR3s7oe3bMf@redis-1557
 CELERY_RESULT_BACKEND = 'redis://default:RSJQm2zvWJ93OnXzZDivnbR3s7oe3bMf@redis-15570.c308.sa-east-1-1.ec2.redns.redis-cloud.com:15570/0'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP do Outlook
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'andersonmoura8125@outlook.com'
-EMAIL_HOST_PASSWORD = 'aaa050200'
-DEFAULT_FROM_EMAIL = 'andersonmoura8125@outlook.com'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp-mail.outlook.com'  # Servidor SMTP do Outlook
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'andersonmoura8125@outlook.com'
+#EMAIL_HOST_PASSWORD = 'aaa050200'
+#DEFAULT_FROM_EMAIL = 'andersonmoura8125@outlook.com'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.office365.com'  # Servidor SMTP do Outlook
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'anderson.nascimento@qvsaude.com.br'  # Seu endereço de email
-EMAIL_HOST_PASSWORD = 'Aaa@545300'  # Sua senha de email
-DEFAULT_FROM_EMAIL = 'anderson.nascimento@qvsaude.com.br'
+EMAIL_HOST_USER = 'ibemp.aesp@brisecorretora.com.br'  # Seu endereço de email
+EMAIL_HOST_PASSWORD = 'L.668205119835ac'  # Sua senha de email
+DEFAULT_FROM_EMAIL = 'ibemp.aesp@brisecorretora.com.br'
