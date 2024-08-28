@@ -55,7 +55,7 @@ def create_aesp_odonto(request):
                     if 'DATA_NASCIMENTO' in form.errors:
                         # Check if the specific error message is in the errors
                         if form.errors['DATA_NASCIMENTO'] == ['Informe uma data válida.']:
-                            messages.success(request, '(ERRO) data nascimento do dependente deve ter esta formatação: 00/00/0000, verifique e tente novamente')
+                            messages.success(request, '(ERRO) A DATA NASCIMENTO do dependente deve ter a formatação: 00/00/0000, verifique e tente novamente')
                             break  # Stop after finding the error you want
     else:
         titular_form = AESP_odontoForm()
