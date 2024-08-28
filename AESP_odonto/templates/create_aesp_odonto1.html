@@ -499,6 +499,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     document.getElementById('add-dependente-btn').addEventListener('click', function() {
+
+
         var newForm = dependenteFormTemplate.cloneNode(true);
         newForm.style.display = 'block';
         newForm.id = '';
@@ -578,11 +580,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 $(document).ready(function(){
+        $('#id_CEP').mask('00000-000');
         $('#id_DATA_NASCIMENTO').mask('00/00/0000');
-        $('#id_data_nascimento_dep').mask('00/00/0000');
-        
+        $('#id_dependentes-0-DATA_NASCIMENTO').mask('00/00/0000');
+
     });
-      
+
       
       </script>
   

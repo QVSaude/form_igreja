@@ -48,8 +48,15 @@ def create_aesp_odonto(request):
             else:
                 messages.warning(request, 'Formulário enviado, mas houve um problema ao enviar o email.')
         else:
-            print(titular_form.errors)
-            print(dependente_formset.errors)
+            if titular_form.errors:
+                messages.success(request, f'(ERRO) {titular_form.errors}')
+            if dependente_formset.errors:
+                for form in dependente_formset:
+                    if 'DATA_NASCIMENTO' in form.errors:
+                        # Check if the specific error message is in the errors
+                        if form.errors['DATA_NASCIMENTO'] == ['Informe uma data válida.']:
+                            messages.success(request, '(ERRO) data nascimento do dependente deve ter esta formatação: 00/00/0000, verifique e tente novamente')
+                            break  # Stop after finding the error you want
     else:
         titular_form = AESP_odontoForm()
         dependente_formset = DependenteFormSet(queryset=Dependente.objects.none())

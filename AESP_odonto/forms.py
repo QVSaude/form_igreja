@@ -24,7 +24,7 @@ class AESP_odontoForm(forms.ModelForm):
         self.fields['CIDADE'].widget.attrs.update({'id': 'id_CIDADE'})
         self.fields['ESTADO'].widget.attrs.update({'id': 'id_ESTADO'})
         
-        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'id': 'id_DATA_NASCIMENTO'})
+        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'class': 'id_DATA_NASCIMENTO'})
         
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
@@ -38,10 +38,12 @@ class DependenteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DependenteForm, self).__init__(*args, **kwargs)
         self.fields['TIPO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'id': 'id_data_nascimento_dep', 'placeholder':'00/00/0000'})
+        self.fields['DATA_NASCIMENTO'].widget.attrs.update({ 'placeholder':'00/00/0000'})
         
         for field_name, field in self.fields.items():
                 field.widget.attrs['class'] = 'form-control'
+                if field_name == 'DATA_NASCIMENTO':
+                    field.widget.attrs['class'] = 'form-control DATA_NASCIMENTO_DEP'
        
 # Define the formset
 DependenteFormSet = inlineformset_factory(
