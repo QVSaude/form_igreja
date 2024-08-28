@@ -4,6 +4,7 @@ from .models import AESP_odonto, Dependente
 from django.forms import inlineformset_factory
 
 class AESP_odontoForm(forms.ModelForm):
+    STATUS = forms.BooleanField(required=False)
     class Meta:
         model = AESP_odonto
         fields = '__all__'

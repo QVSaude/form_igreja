@@ -1,12 +1,11 @@
-
 import csv
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 
 from AESP_odonto.models import AESP_odonto, Dependente
 from .forms import AESP_odontoForm, DependenteForm, DependenteFormSet
-from django.utils import timezone
 from django.contrib import messages
-
 
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -24,24 +23,17 @@ def create_aesp_odonto(request):
                 dependente.titular = titular
                 dependente.save()
 
-
             # Retrieve the saved data from the database
             titular_data = AESP_odonto.objects.get(pk=titular.pk)
-            dependentes_data = Dependente.objects.filter(titular=titular)
-            
-            print(titular_data)
-            print(dependentes_data)
-            
+            dependentes_data = Dependente.objects.filter(titular=titular)           
             
             # Save the data to a CSV file
             save_to_csv(titular_data, dependentes_data)
 
-            
-            
             # Enviar o arquivo CSV por e-mail
             filepath =  'AESP_odonto/data/Layout AESP ODONTO.csv'
-            recipient_email = 'aesp@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário
-            # recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para test
+            # recipient_email = 'aesp@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário
+            recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para test
             email_sent = send_email_with_csv(filepath, recipient_email)
             if email_sent:
                 messages.success(request, 'Formulário enviado com sucesso e email enviado!')
@@ -65,7 +57,17 @@ def create_aesp_odonto(request):
             'dependente_formset': dependente_formset,
 })
 
-
+def list_aesp_odonto(request):
+    beneficiarios = AESP_odonto.objects.values()
+    dependente = Dependente.objects.values()
+    context = {
+        'beneficiarios': beneficiarios,
+        'dependentes': dependente
+    }
+    template = loader.get_template('list_aesp_odonto.html')
+    
+    
+    return HttpResponse(template.render(context, request))
 
 
 def save_to_csv(titular, dependentes):
@@ -155,11 +157,6 @@ def save_to_csv(titular, dependentes):
             writer.writerow(dependente_row)  # Adicionar a nova linha do dependente
 
     return csv_file_path
-
-
-
-
-
 
 def send_email_with_csv(file_path, recipient_email):
     subject = 'Arquivo CSV'
