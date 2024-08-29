@@ -4,19 +4,17 @@ from .models import AESP_odonto, Dependente
 from django.forms import inlineformset_factory
 
 class AESP_odontoForm(forms.ModelForm):
-    STATUS = forms.BooleanField(required=False)
     class Meta:
         model = AESP_odonto
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(AESP_odontoForm, self).__init__(*args, **kwargs)
-        self.fields['CONDICAO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['NRO_CONTRATO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['DATA_MOVIMENTO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['DATA_INICIO_UTILIZACAO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['CODIGOPLANODATASYS'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
-        self.fields['TIPO'].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
+        readonly_fields = ['CONDICAO', 'NRO_CONTRATO', 'DATA_MOVIMENTO', 'DATA_INICIO_UTILIZACAO', 'CODIGOPLANODATASYS', 'TIPO']
+        for field_name in readonly_fields:
+            self.fields[field_name].widget.attrs.update({'readonly': 'readonly', 'class': 'form-control'})
+
+        self.fields['STATUS'].widget.attrs.update({'id': 'STATUS'})
         
         self.fields['CEP'].widget.attrs.update({'id': 'id_CEP'})
         self.fields['NOME_LOGRADOURO'].widget.attrs.update({'id': 'id_NOME_LOGRADOURO'})
@@ -25,7 +23,7 @@ class AESP_odontoForm(forms.ModelForm):
         self.fields['CIDADE'].widget.attrs.update({'id': 'id_CIDADE'})
         self.fields['ESTADO'].widget.attrs.update({'id': 'id_ESTADO'})
         
-        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'class': 'id_DATA_NASCIMENTO' ,'placeholder':'00/00/0000'})
+        self.fields['DATA_NASCIMENTO'].widget.attrs.update({'class': 'id_DATA_NASCIMENTO', 'placeholder': '00/00/0000'})
         
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'

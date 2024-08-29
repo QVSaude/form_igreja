@@ -1,6 +1,6 @@
 import csv
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.template import loader
 
 from AESP_odonto.models import AESP_odonto, Dependente
@@ -9,65 +9,100 @@ from django.contrib import messages
 
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 
 def create_aesp_odonto(request):
     if request.method == 'POST':
-        titular_form  = AESP_odontoForm(request.POST)
+        titular_form = AESP_odontoForm(request.POST)
         dependente_formset = DependenteFormSet(request.POST, queryset=Dependente.objects.none())
-        print(titular_form.errors)
+        
+        print(dependente_formset)
+        print(dependente_formset.is_valid())
+
+        
         if titular_form.is_valid() and dependente_formset.is_valid():
             titular = titular_form.save()
             dependentes = dependente_formset.save(commit=False)
+            print(dependentes)
             for dependente in dependentes:
                 dependente.titular = titular
                 dependente.save()
 
             # Retrieve the saved data from the database
             titular_data = AESP_odonto.objects.get(pk=titular.pk)
-            dependentes_data = Dependente.objects.filter(titular=titular)           
-            
+            dependentes_data = Dependente.objects.filter(titular=titular)
+
             # Save the data to a CSV file
             save_to_csv(titular_data, dependentes_data)
 
             # Enviar o arquivo CSV por e-mail
-            filepath =  'AESP_odonto/data/Layout AESP ODONTO.csv'
-            # recipient_email = 'aesp@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário
-            recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para test
+            filepath = 'AESP_odonto/data/Layout AESP ODONTO.csv'
+            recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para teste
             email_sent = send_email_with_csv(filepath, recipient_email)
+
             if email_sent:
                 messages.success(request, 'Formulário enviado com sucesso e email enviado!')
             else:
                 messages.warning(request, 'Formulário enviado, mas houve um problema ao enviar o email.')
         else:
+            # Exibindo erros para o formulário titular
             if titular_form.errors:
-                messages.success(request, f'(ERRO) {titular_form.errors}')
+                messages.warning(request, f'(ERRO) {titular_form.errors}')
+            
+            # Exibindo erros para o formset de dependentes
             if dependente_formset.errors:
+                messages.warning(request, f'(ERRO) {dependente_formset.errors}')
                 for form in dependente_formset:
                     if 'DATA_NASCIMENTO' in form.errors:
-                        # Check if the specific error message is in the errors
                         if form.errors['DATA_NASCIMENTO'] == ['Informe uma data válida.']:
-                            messages.success(request, '(ERRO) A DATA NASCIMENTO do dependente deve ter a formatação: 00/00/0000, verifique e tente novamente')
-                            break  # Stop after finding the error you want
+                            messages.warning(request, '(ERRO) A DATA NASCIMENTO do dependente deve ter a formatação: 00/00/0000, verifique e tente novamente')
+                            break  # Para ao encontrar o erro que queremos destacar
     else:
         titular_form = AESP_odontoForm()
         dependente_formset = DependenteFormSet(queryset=Dependente.objects.none())
+    
     return render(request, 'create_aesp_odonto1.html', {
-            'form': titular_form,
-            'dependente_formset': dependente_formset,
-})
+        'form': titular_form,
+        'dependente_formset': dependente_formset,
+    })
 
 def list_aesp_odonto(request):
-    beneficiarios = AESP_odonto.objects.values()
+    titular = AESP_odonto.objects.values()
     dependente = Dependente.objects.values()
     context = {
-        'beneficiarios': beneficiarios,
+        'Titulares': titular,
         'dependentes': dependente
     }
     template = loader.get_template('list_aesp_odonto.html')
     
     
     return HttpResponse(template.render(context, request))
+
+
+@csrf_exempt
+def desativar_titular(request, user_id):
+    if request.method == 'POST':
+        try:
+            titular = get_object_or_404(AESP_odonto, id=user_id)
+            titular.STATUS = 'Desativado'
+            titular.save()
+            return JsonResponse({'success': True})
+        except titular.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Benenficiario não encontrado.'})
+    return JsonResponse({'success': False, 'error': 'Método não permitido.'})
+
+@csrf_exempt
+def desativar_dependent(request, user_id):
+    if request.method == 'POST':
+        try:
+            titular = get_object_or_404(Dependente, id=user_id)
+            titular.STATUS = 'Desativado'
+            titular.save()
+            return JsonResponse({'success': True})
+        except titular.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Benenficiario não encontrado.'})
+    return JsonResponse({'success': False, 'error': 'Método não permitido.'})
 
 
 def save_to_csv(titular, dependentes):

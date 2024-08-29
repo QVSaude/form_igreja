@@ -47,7 +47,7 @@ class AESP_odonto(models.Model):
     DDD = models.CharField(max_length=2)
     FONE = models.CharField(max_length=10)
     CODIGOPLANODATASYS = models.CharField(max_length=20, default=196702)
-    STATUS = models.CharField(max_length=20, default='ativo', null=True)
+    STATUS = models.CharField(max_length=20, default='Ativo', null=True)
 
 class Dependente(models.Model):
     titular = models.ForeignKey(AESP_odonto, on_delete=models.CASCADE, related_name='dependentes')
@@ -85,4 +85,4 @@ class Dependente(models.Model):
     GRAU_DEPENDENCIA = models.CharField(max_length=10, choices=GRAU_DEPENDENCIA_CHOICES)
     RG = models.CharField(max_length=20, blank=True, null=True)
     ORGAO_EMISSOR = models.CharField(max_length=100, blank=True, null=True)
-    STATUS = models.CharField(max_length=20, default='ativo', null=True)
+    STATUS = models.CharField(max_length=20, default='Ativo', null=True)

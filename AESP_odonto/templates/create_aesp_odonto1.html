@@ -360,6 +360,15 @@
                             Por favor, insira um valor válido.
                           </div>
                       </div>
+                      <div class="input-group mb-3" id="statusTitular">
+                        <span class="input-group-text" id="basic-addon1">STATUS</span>
+                        {{ form.STATUS }}
+                          <div class="invalid-feedback">
+                            Por favor, insira um valor válido.
+                          </div>
+                      </div>
+
+
                       <hr class="border-boton">
                       <div class="input-group mb-3" id="btn-dependente">
                         <span class="input-group-text" id="basic-addon1">ADICIONAR DEPENDENTE</span>
@@ -448,6 +457,13 @@
                                 </div>
                                   
             
+                                <div class="input-group mb-3" id="statusDepend">
+                                  <span class="input-group-text" id="basic-addon1">STATUS</span>
+                                  {{ form.STATUS }}
+                                    <div class="invalid-feedback">
+                                      Por favor, insira um valor válido.
+                                    </div>
+                                </div>
                               </div>
                               <button type="button" class="btn btn-danger remove-dependente-btn">Remover </button>
                               <hr class="border-boton">
@@ -522,6 +538,10 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
 
         var dateField = document.getElementById("id_DATA_MOVIMENTO");
+        var statusTitular = document.getElementById("statusTitular");
+        statusTitular.style.display = 'none';
+        var statusDepend = document.getElementById("statusDepend");
+        statusDepend.style.display = 'none';
         var dateFieldUtilizacao = document.getElementById("id_DATA_INICIO_UTILIZACAO");
         if (dateField) {
           var now = new Date();
