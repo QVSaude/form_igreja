@@ -1,4 +1,5 @@
 import csv
+import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
@@ -37,7 +38,7 @@ def create_aesp_odonto(request):
 
             # Enviar o arquivo CSV por e-mail
             filepath = 'AESP_odonto/data/Layout AESP ODONTO.csv'
-            recipient_email = 'anderson.nascimento@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para teste
+            recipient_email = 'movimentacao@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para teste
             email_sent = send_email_with_csv(filepath, recipient_email)
 
             if email_sent:
@@ -192,9 +193,15 @@ def save_to_csv(titular, dependentes):
 
     return csv_file_path
 
+def data():
+    current_date = datetime.now()
+    data_em_texto = '{}/{}/{}'.format(current_date.day,current_date.month,
+    current_date.year)
+    return data_em_texto
+
 def send_email_with_csv(file_path, recipient_email):
-    subject = 'Arquivo CSV'
-    body = 'Segue em anexo o arquivo CSV solicitado.'
+    subject = 'Arquivo CSV Beneficiarios AESP'
+    body = f'Segue em anexo o arquivo CSV dos novos beneficiarios {data()}'
     email = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [recipient_email])
     
     # Adicionar o arquivo CSV como anexo
