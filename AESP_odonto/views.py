@@ -15,16 +15,15 @@ from django.views.decorators.csrf import csrf_exempt
 def create_aesp_odonto(request):
     if request.method == 'POST':
         titular_form = AESP_odontoForm(request.POST)
-        dependente_formset = DependenteFormSet(request.POST, queryset=Dependente.objects.none())
+        dependente_formset = DependenteFormSet(request.POST)
         
-        print(dependente_formset)
-        print(dependente_formset.is_valid())
-
-        
+        for form in dependente_formset:
+            print(form.prefix)
+            print(form.is_valid())
+                
         if titular_form.is_valid() and dependente_formset.is_valid():
             titular = titular_form.save()
             dependentes = dependente_formset.save(commit=False)
-            print(dependentes)
             for dependente in dependentes:
                 dependente.titular = titular
                 dependente.save()

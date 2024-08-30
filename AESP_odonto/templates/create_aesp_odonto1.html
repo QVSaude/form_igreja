@@ -471,15 +471,6 @@
                       </div>
                   </div>
                  
-
-
-
-
-
-
-
-
-
                       <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1" >CODIGOPLANODATASYS</span>
                         {{ form.CODIGOPLANODATASYS }}
@@ -509,31 +500,48 @@
     <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-    var dependenteFormIndex = 0;
+    var dependenteFormIndex = 0; 
     var dependenteFormTemplate = document.getElementById('dependente-form-template');
     var dependenteFormsContainer = document.getElementById('dependente-forms');
-    
 
     document.getElementById('add-dependente-btn').addEventListener('click', function() {
-
-
+      
         var newForm = dependenteFormTemplate.cloneNode(true);
         newForm.style.display = 'block';
-        newForm.id = '';
+        newForm.classList.remove('dependente-form-template');
+        newForm.classList.add('dependente-form');
         var formFields = newForm.querySelectorAll('input, select, textarea');
+        console.log(dependenteFormIndex)
         formFields.forEach(function(field) {
-            field.name = field.name.replace('__prefix__', dependenteFormIndex);
-            field.id = field.id.replace('__prefix__', dependenteFormIndex);
+            var nameAttr = field.name;
+            if (nameAttr) {
+                field.name = nameAttr.replace([0], dependenteFormIndex);
+                console.log(field.name)
+            }
+            var idAttr = field.id;
+            if (idAttr) {
+                field.id = idAttr.replace([0], dependenteFormIndex);
+            }
+
         });
+
         dependenteFormsContainer.appendChild(newForm);
         dependenteFormIndex++;
-        
+
         // Add event listener to the remove button
         newForm.querySelector('.remove-dependente-btn').addEventListener('click', function() {
             newForm.remove();
+
+            // Update the total forms count
+            document.getElementById('id_dependentes-TOTAL_FORMS').value = dependenteFormIndex;
         });
+
+        // Update the total forms count
+        document.getElementById('id_dependentes-TOTAL_FORMS').value = dependenteFormIndex +1;
+
     });
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
