@@ -1,5 +1,5 @@
 import csv
-import datetime
+from datetime import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
@@ -201,7 +201,7 @@ def data():
 
 def send_email_with_csv(file_path, recipient_email):
     subject = 'Arquivo CSV Beneficiarios AESP'
-    body = f'Segue em anexo o arquivo CSV dos novos beneficiarios {data()}'
+    body = f'Segue em anexo o arquivo CSV dos novos beneficiarios'
     email = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [recipient_email])
     
     # Adicionar o arquivo CSV como anexo
