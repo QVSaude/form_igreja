@@ -5,5 +5,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('form_AESP_odonto/', include('AESP_odonto.urls')),
+    path('', include('AESP_odonto.urls')),
 ]

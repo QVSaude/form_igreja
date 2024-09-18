@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
 def create_aesp_odonto(request):
@@ -67,6 +68,8 @@ def create_aesp_odonto(request):
         'dependente_formset': dependente_formset,
     })
 
+
+@login_required(login_url='/admin/')
 def list_aesp_odonto(request):
     titular = AESP_odonto.objects.values()
     dependente = Dependente.objects.values()

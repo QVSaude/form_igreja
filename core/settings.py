@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,33 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AESP_odonto'
 ]
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Qv Admin",
+    "site_header": "Qv Admin",
+    "site_brand": "Qv Admin",
+    
+    
+    # Links to put along the top menu
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "listar Beneficiarios", "url": "/list/", "new_window": False},
+    ],
+
+    # Whether to show the UI customizer on the sidebar
+    "show_ui_builder": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "superhero",
+    "dark_mode_theme": "cyborg",
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
