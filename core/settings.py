@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AESP_odonto'
+    'AESP_odonto',
+    'empresas_AESP_odonto'
 ]
 
 JAZZMIN_SETTINGS = {

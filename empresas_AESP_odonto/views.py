@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 
-from AESP_odonto.models import AESP_odonto, Dependente
+from empresas_AESP_odonto.models import AESP_odonto_empresa, Dependente
 from .forms import AESP_odontoForm, DependenteForm, DependenteFormSet
 from django.contrib import messages
 
@@ -31,14 +31,14 @@ def create_aesp_odonto(request):
                 dependente.save()
 
             # Retrieve the saved data from the database
-            titular_data = AESP_odonto.objects.get(pk=titular.pk)
+            titular_data = AESP_odonto_empresa.objects.get(pk=titular.pk)
             dependentes_data = Dependente.objects.filter(titular=titular)
 
             # Save the data to a CSV file
             save_to_csv(titular_data, dependentes_data)
 
             # Enviar o arquivo CSV por e-mail
-            filepath = 'AESP_odonto/data/Layout AESP ODONTO.csv'
+            filepath = 'empresas_AESP_odonto/data/Layout AESP ODONTO.csv'
             recipient_email = 'movimentacao@qvsaude.com.br'  # Substitua pelo e-mail do destinatário para teste
             email_sent = send_email_with_csv(filepath, recipient_email)
 
@@ -63,7 +63,7 @@ def create_aesp_odonto(request):
         titular_form = AESP_odontoForm()
         dependente_formset = DependenteFormSet(queryset=Dependente.objects.none())
     
-    return render(request, 'create_aesp_odonto1.html', {
+    return render(request, 'create_aesp_odonto_empresa.html', {
         'form': titular_form,
         'dependente_formset': dependente_formset,
     })
@@ -71,7 +71,7 @@ def create_aesp_odonto(request):
 
 @login_required(login_url='/admin/')
 def list_aesp_odonto(request):
-    titular = AESP_odonto.objects.values()
+    titular = AESP_odonto_empresa.objects.values()
     dependente = Dependente.objects.values()
     context = {
         'Titulares': titular,
@@ -87,7 +87,7 @@ def list_aesp_odonto(request):
 def desativar_titular(request, user_id):
     if request.method == 'POST':
         try:
-            titular = get_object_or_404(AESP_odonto, id=user_id)
+            titular = get_object_or_404(AESP_odonto_empresa, id=user_id)
             titular.STATUS = 'Desativado'
             titular.save()
             return JsonResponse({'success': True})
@@ -109,7 +109,7 @@ def desativar_dependent(request, user_id):
 
 
 def save_to_csv(titular, dependentes):
-    csv_file_path = 'AESP_odonto/data/Layout AESP ODONTO.csv'
+    csv_file_path = 'empresas_AESP_odonto/data/Layout AESP ODONTO.csv'
     
     # Ler o arquivo CSV existente
     with open(csv_file_path, mode='r', newline='', encoding='utf-8-sig') as file:
@@ -204,7 +204,7 @@ def data():
 
 def send_email_with_csv(file_path, recipient_email):
     subject = 'Arquivo CSV Beneficiarios AESP'
-    body = f'Segue em anexo o arquivo CSV dos novos beneficiarios da IGREJA'
+    body = f'Segue em anexo o arquivo CSV dos novos beneficiarios da EMPRESA()'
     email = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [recipient_email])
     
     # Adicionar o arquivo CSV como anexo
