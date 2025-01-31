@@ -142,6 +142,7 @@ def save_to_csv(titular, dependentes):
         'ESTADO': titular.ESTADO,
         'CEP': titular.CEP,
         'EMAIL': titular.EMAIL,
+        'PASTOR': titular.PASTOR,
         'DDD': titular.DDD,
         'FONE': titular.FONE,
         'CODIGOPLANODATASYS': titular.CODIGOPLANODATASYS,
