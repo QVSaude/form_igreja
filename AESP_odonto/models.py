@@ -47,7 +47,7 @@ class AESP_odonto(models.Model):
     DDD = models.CharField(max_length=2)
     FONE = models.CharField(max_length=10)
 
-    CODIGOPLANODATASYS_CHOICES = [('ROL_MINIMO', 'ROL MINIMO'),
+    CODIGOPLANODATASYS_CHOICES = [('ROL_ANS', 'ROL ANS'),
     ('ROL_MAIS', 'ROL +'),
 ]
 

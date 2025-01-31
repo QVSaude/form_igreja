@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-p1oe3x2mtd_5^@4a29q)(+5d-8uj)oii)t+v0m%y@l71s2!(xz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost']
+ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost', '192.168.1.228']
 
 
 # Application definition
@@ -184,6 +184,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.office365.com'  # Servidor SMTP do Outlook
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ibemp.aesp@brisecorretora.com.br'  # Seu endereço de email
-EMAIL_HOST_PASSWORD = 'L.668205119835ac'  # Sua senha de email
-DEFAULT_FROM_EMAIL = 'ibemp.aesp@brisecorretora.com.br'
+EMAIL_HOST_USER = 'cemaderj.aesp@brisecorretora.com.br'  # Seu endereço de email
+EMAIL_HOST_PASSWORD = 'K)388560362189ah'  # Sua senha de email
+DEFAULT_FROM_EMAIL = 'cemaderj.aesp@brisecorretora.com.br'
