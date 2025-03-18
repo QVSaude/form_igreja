@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-p1oe3x2mtd_5^@4a29q)(+5d-8uj)oii)t+v0m%y@l71s2!(xz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost', '192.168.1.228', 'https://formigreja.vercel.app']
+ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost', '192.168.1.228', 'formigreja.vercel.app']
 
 
 # Application definition
