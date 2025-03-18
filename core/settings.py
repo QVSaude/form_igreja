@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-p1oe3x2mtd_5^@4a29q)(+5d-8uj)oii)t+v0m%y@l71s2!(xz
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost', '192.168.1.228', 'formigreja.vercel.app']
+ALLOWED_HOSTS = ['*', '.vercel.app']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.asgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
