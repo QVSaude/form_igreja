@@ -4,14 +4,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-p1oe3x2mtd_5^@4a29q)(+5d-8uj)oii)t+v0m%y@l71s2!(xz'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['201.76.177.134', '192.168.1.224' ,'localhost', '192.168.1.228', 'formigreja.vercel.app']
-
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -50,7 +47,6 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "cyborg",
 }
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = 'core.asgi.application'
 
 DATABASES = {
     # 'default': {
