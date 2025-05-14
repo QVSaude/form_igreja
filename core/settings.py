@@ -12,7 +12,7 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     WHITENOISE_MANIFEST_STRICT = False
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost', 'https://crefito2.qvsaude.com.br']
+ALLOWED_HOSTS = ['crefito2.qvsaude.com.br' , '.vercel.app', 'localhost', ]
 
 INSTALLED_APPS = [
     'jazzmin',
