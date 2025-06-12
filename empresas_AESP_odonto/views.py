@@ -8,10 +8,14 @@ from empresas_AESP_odonto.models import AESP_odonto_empresa, Dependente
 from .forms import AESP_odontoForm, DependenteForm, DependenteFormSet
 from django.contrib import messages
 
-from django.core.mail import EmailMessage
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+import csv
+from io import StringIO
 
 
 def create_aesp_odonto(request):
@@ -35,12 +39,7 @@ def create_aesp_odonto(request):
             dependentes_data = Dependente.objects.filter(titular=titular)
 
             # Save the data to a CSV file
-            save_to_csv(titular_data, dependentes_data)
-
-            # Enviar o arquivo CSV por e-mail
-            filepath = 'empresas_AESP_odonto/data/Layout AESP ODONTO.csv'
-            recipient_email = 'relacionamento@brisecorretora.com.br'  # Substitua pelo e-mail do destinatário para teste
-            email_sent = send_email_with_csv(filepath, recipient_email)
+            email_sent = send_aesp_data_via_email(titular_data, dependentes_data)
 
             if email_sent:
                 messages.success(request, 'Formulário enviado com sucesso e email enviado!')
@@ -107,7 +106,119 @@ def desativar_dependent(request, user_id):
             return JsonResponse({'success': False, 'error': 'Benenficiario não encontrado.'})
     return JsonResponse({'success': False, 'error': 'Método não permitido.'})
 
-
+def send_aesp_data_via_email(titular, dependentes, recipient_email='ti@qvsaude.com.br'):
+    try:
+        # Criar um buffer de string para simular o arquivo CSV (opcional)
+        csv_buffer = StringIO()
+        writer = csv.writer(csv_buffer, delimiter=';')
+        
+        # Escrever o cabeçalho (ajuste conforme seu layout original)
+        header = [
+            'CONDICAO', 'NRO_CONTRATO', 'DATA_MOVIMENTO', 'DATA_INICIO_UTILIZACAO', 
+            'TIPO', 'NOME', 'NOME_MAE', 'DATA_NASCIMENTO', 'RG', 'UF_RG', 'CPF', 
+            'SEXO', 'ESTADO_CIVIL', 'TIPO_LOGRADOURO', 'NOME_LOGRADOURO', 'NUMERO',
+            'BAIRRO', 'COMPLEMENTO', 'CIDADE', 'ESTADO', 'CEP', 'EMAIL', 'PASTOR',
+            'DDD', 'FONE', 'CODIGOPLANODATASYS', 'GRAU_DEPENDENCIA', 'ORGAO_EMISSOR'
+        ]
+        writer.writerow(header)
+        
+        # Dados do titular
+        titular_row = [
+            titular.CONDICAO,
+            titular.NRO_CONTRATO,
+            titular.DATA_MOVIMENTO.strftime('%d/%m/%Y') if titular.DATA_MOVIMENTO else '',
+            titular.DATA_INICIO_UTILIZACAO.strftime('%d/%m/%Y') if titular.DATA_INICIO_UTILIZACAO else '',
+            titular.TIPO,
+            titular.NOME,
+            titular.NOME_MAE,
+            titular.DATA_NASCIMENTO.strftime('%d/%m/%Y') if titular.DATA_NASCIMENTO else '',
+            titular.RG,
+            titular.UF_RG,
+            titular.CPF,
+            titular.SEXO,
+            titular.ESTADO_CIVIL,
+            titular.TIPO_LOGRADOURO,
+            titular.NOME_LOGRADOURO,
+            titular.NUMERO,
+            titular.BAIRRO,
+            titular.COMPLEMENTO,
+            titular.CIDADE,
+            titular.ESTADO,
+            titular.CEP,
+            titular.EMAIL,
+            titular.PASTOR,
+            titular.DDD,
+            titular.FONE,
+            titular.CODIGOPLANODATASYS,
+            '',  # GRAU_DEPENDENCIA (vazio para titular)
+            ''   # ORGAO_EMISSOR (vazio para titular)
+        ]
+        writer.writerow(titular_row)
+        
+        # Dados dos dependentes
+        for dependente in dependentes:
+            dependente_row = [
+                titular.CONDICAO,  # Herda do titular
+                titular.NRO_CONTRATO,  # Herda do titular
+                '',  # DATA_MOVIMENTO (vazio para dependentes)
+                '',  # DATA_INICIO_UTILIZACAO (vazio para dependentes)
+                dependente.TIPO,
+                dependente.NOME,
+                dependente.NOME_MAE,
+                dependente.DATA_NASCIMENTO.strftime('%d/%m/%Y') if dependente.DATA_NASCIMENTO else '',
+                dependente.RG,
+                '',  # UF_RG (vazio para dependentes)
+                dependente.CPF_DEPENDENTE,
+                dependente.SEXO,
+                dependente.ESTADO_CIVIL,
+                titular.TIPO_LOGRADOURO,  # Herda do titular
+                titular.NOME_LOGRADOURO,  # Herda do titular
+                titular.NUMERO,  # Herda do titular
+                titular.BAIRRO,  # Herda do titular
+                titular.COMPLEMENTO,  # Herda do titular
+                titular.CIDADE,  # Herda do titular
+                titular.ESTADO,  # Herda do titular
+                titular.CEP,  # Herda do titular
+                titular.EMAIL,  # Herda do titular
+                '',  # PASTOR (vazio para dependentes)
+                titular.DDD,  # Herda do titular
+                titular.FONE,  # Herda do titular
+                titular.CODIGOPLANODATASYS,  # Herda do titular
+                dependente.GRAU_DEPENDENCIA,
+                dependente.ORGAO_EMISSOR
+            ]
+            writer.writerow(dependente_row)
+        
+        # Obter o conteúdo CSV como string
+        csv_content = csv_buffer.getvalue()
+        
+        # Renderizar template HTML com os dados
+        html_content = render_to_string('aesp_email_template.html', {
+            'titular': titular,
+            'dependentes': dependentes,
+            'csv_content': csv_content,
+        })
+        
+        # Configurar e enviar email
+        email = EmailMessage(
+            subject=f'Novo cadastro AESP Odonto - {titular.NOME}',
+            body=html_content,
+            from_email=None,  # Usará DEFAULT_FROM_EMAIL do settings.py
+            to=[recipient_email],
+            reply_to=[titular.EMAIL],  # Email do titular como reply-to
+            attachments=[
+                ('dados_aesp.csv', csv_content, 'text/csv'),
+            ]
+        )
+        email.content_subtype = "html"  # Definir como HTML
+        email.send()
+        
+        return True
+    except Exception as e:
+        print(f"Erro ao enviar email: {e}")
+        return False
+   
+   
 def save_to_csv(titular, dependentes):
     csv_file_path = 'empresas_AESP_odonto/data/Layout AESP ODONTO.csv'
     
