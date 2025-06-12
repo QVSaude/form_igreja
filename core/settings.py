@@ -88,18 +88,20 @@ WSGI_APPLICATION = 'core.wsgi.app'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    #     'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'aespodontoqv',
-    #     'USER': 'admin',
-    #     'PASSWORD': 'Iso27001qv',
-    #     'HOST': '192.168.1.127',
-    #     'PORT': '3306',
-    # },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE', 'neondb'),
+        'USER': os.getenv('PGUSER', 'neondb_owner'),
+        'PASSWORD': os.getenv('PGPASSWORD', 'npg_Oh2JiDGzZ3le'),
+        'HOST': os.getenv('PGHOST', 'ep-dawn-mouse-a4rtipuj-pooler.us-east-1.aws.neon.tech'),
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # Neon requer SSL
+        },
+    }
 }
+
+DATABASES['default']['CONN_MAX_AGE'] = 300  # Mantém conexões por 5 minutos
+DATABASES['default']['CONN_HEALTH_CHECKS'] = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {
