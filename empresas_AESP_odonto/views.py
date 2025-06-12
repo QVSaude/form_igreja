@@ -146,7 +146,7 @@ def send_aesp_data_via_email(titular, dependentes, recipient_email='ti@qvsaude.c
             titular.ESTADO,
             titular.CEP,
             titular.EMAIL,
-            titular.PASTOR,
+            # titular.PASTOR,
             titular.DDD,
             titular.FONE,
             titular.CODIGOPLANODATASYS,
